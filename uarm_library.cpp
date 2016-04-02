@@ -566,6 +566,7 @@ void uArmClass::moveToGround(){
 }
 void uArmClass::moveToGround(double rate){
 	/*Moves head to ground at rate cm/.01sec*/
+	pinMode(STOPPER, INPUT_PULLUP);
 	int stopper=1;
 
 	while (true){
