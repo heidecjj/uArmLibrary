@@ -89,10 +89,26 @@ public:
 	uArmClass();
 
 	/*Start added by Josh Heidecker*/
+
+	/*Input: None
+	Returns: None
+	Side Effects: Moves the head down until hitting something
+	at the default rate*/
 	void moveToGround();
+
+	/*Input: rate Greater than 0 where 1 is default, bigger=faster and smaller=slower
+	Returns: None
+	Side Effects: Moves the head down until hitting something
+	according to rate.*/
 	void moveToGround(double rate);
-	void init();
+
+	/*Input: None
+	Returns: None
+	Side Effects: Joins i2c bus, starts the serial monitor at
+	9600 baud rate, and sets STOPPER pin's pinmode to INPUT_PULLUP*/
+	void setup();
 	/*End added by Josh Heidecker*/
+
 	double readServoOffset(byte servo_num);
     void detachServo(byte servo_num);
 	void alert(byte times, byte runTime, byte stopTime);
@@ -137,8 +153,17 @@ public:
   void gripperCatch();
   void gripperRelease();
   void interpolate(double start_val, double end_val, double (&interp_vals)[INTERP_INTVLS], byte ease_type);
+  
+  /*Input: None
+  Returns: None
+  Side Effects: Turns on the pump*/
   void pumpOn();
+
+  /*Input: None
+  Returns: None
+  Side Effects: Turns off the pump*/
   void pumpOff();
+
 protected:
   double cur_rot;
   double cur_left;

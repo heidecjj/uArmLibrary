@@ -543,39 +543,57 @@ void uArmClass::gripperRelease()
 /* Action Control */
 void uArmClass::pumpOn()
 {
-
-   pinMode(PUMP_EN, OUTPUT);
-   pinMode(VALVE_EN, OUTPUT);
-   digitalWrite(VALVE_EN, LOW);
-   digitalWrite(PUMP_EN, HIGH);
+	/*Input: None
+	Returns: None
+    Side Effects: Turns on the pump*/
+	pinMode(PUMP_EN, OUTPUT);
+	pinMode(VALVE_EN, OUTPUT);
+	digitalWrite(VALVE_EN, LOW);	//closes valve
+	digitalWrite(PUMP_EN, HIGH);	//turns on pump
 }
 
 void uArmClass::pumpOff()
 {
-   pinMode(PUMP_EN, OUTPUT);
-   pinMode(VALVE_EN, OUTPUT);
-   digitalWrite(VALVE_EN, HIGH);
-   digitalWrite(PUMP_EN, LOW);
-   delay(50);
-   digitalWrite(VALVE_EN,LOW);
+	/*Input: None
+	Returns: None
+	Side Effects: Turns off the pump*/
+	pinMode(PUMP_EN, OUTPUT);
+	pinMode(VALVE_EN, OUTPUT);
+	digitalWrite(VALVE_EN, HIGH);	//opens valve
+	digitalWrite(PUMP_EN, LOW);		//turns off pump
+	delay(50);
+	digitalWrite(VALVE_EN,LOW);		//closes valve
 }
 
-/* Written and Added by Josh Heidecker*/
+/*********** Written and Added by Josh Heidecker ***********/
+
 void uArmClass::moveToGround(){
+	/*Input: None
+	Returns: None
+	Side Effects: Moves the head down until hitting something
+	at the default rate*/
 	moveToGround(1);
 }
 void uArmClass::moveToGround(double rate){
-	/*Moves head to ground at rate cm/.01sec*/
-	pinMode(STOPPER, INPUT_PULLUP);
-	int stopper=1;
+	/*Input: rate Greater than 0 where 1 is default, bigger=faster and smaller=slower
+	Returns: None
+	Side Effects: Moves the head down until hitting something
+	according to rate.*/
+	int stopper;
 
 	while (true){
-		stopper = digitalRead(STOPPER);
+		stopper = digitalRead(STOPPER);	//0 when switch at head is pressed, 1 when not pressed
 		if (stopper == 0) break;
-		uarm.moveTo(0, 0, -rate,1,.01);
+		uarm.moveTo(0, 0, -rate,1,.01);	//moves down according to rate
 	}
 }
 
-void uArmClass::init(){
-	pinMode(STOPPER, INPUT_PULLUP);
+void uArmClass::setup(){
+	/*Input: None
+	Returns: None
+	Side Effects: Joins i2c bus, starts the serial monitor at
+	9600 baud rate, and sets STOPPER pin's pinmode to INPUT_PULLUP*/
+	Wire.begin();	//joins i2c bus for communication with the uArm    
+	Serial.begin(9600);	//start serial port at 9600 bps
+	pinMode(STOPPER, INPUT_PULLUP);	//"turns on" the momentary switch at the head
 }
