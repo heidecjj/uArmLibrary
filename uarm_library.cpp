@@ -402,6 +402,8 @@ void uArmClass::interpolate(double start_val, double end_val, double (&interp_va
 }
 
 void uArmClass::moveToOpts(double x, double y, double z, double hand_angle, byte relative_flags, double time, byte path_type, byte ease_type) {
+	if (x == 0) x = 0.01;
+
 
   attachAll();
 
@@ -584,7 +586,7 @@ void uArmClass::moveToGround(double rate){
 	while (true){
 		stopper = digitalRead(STOPPER);	//0 when switch at head is pressed, 1 when not pressed
 		if (stopper == 0) break;
-		uarm.moveTo(0, 0, -rate,1,.01);	//moves down according to rate
+		uarm.moveTo(0, 0, -rate*.5,1,0.001);	//moves down according to rate
 	}
 }
 

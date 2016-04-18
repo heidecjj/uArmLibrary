@@ -83,6 +83,16 @@
 #define INTERP_EASE_OUT         4
 
 
+
+#define MOVETO	0
+#define MOVETO_RELATIVE 1
+#define MOVETO_GROUND 2
+#define PUMP_ON 3
+#define PUMP_OFF 4
+#define ALARM 5
+#define HELP 6
+#define DETACH_ALL 7
+
 class uArmClass 
 {
 public:
